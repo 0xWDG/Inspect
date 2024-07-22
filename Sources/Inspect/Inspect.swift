@@ -16,16 +16,16 @@ import SwiftUI
 
 // MARK: - Platform Definitions
 #if os(macOS)
+/// Current platform's view type
 public typealias PlatformView = NSView
-public typealias PlatformControl = NSControl
 public typealias PlatformViewRepresentable = NSViewRepresentable
 public typealias PlatformViewRepresentableContext = NSViewRepresentableContext
 public typealias PlatformViewController = NSViewController
 public typealias PlatformVCRepresentable = NSViewControllerRepresentable
 public typealias PlatformVCRepresentableContext = NSViewControllerRepresentableContext
 #else
+/// Current platform's view type
 public typealias PlatformView = UIView
-public typealias PlatformControl = UIControl
 public typealias PlatformViewRepresentable = UIViewRepresentable
 public typealias PlatformViewRepresentableContext = UIViewRepresentableContext
 public typealias PlatformViewController = UIViewController
@@ -438,6 +438,10 @@ public struct InspectVC<TargetVCType: PlatformViewController>: PlatformVCReprese
 }
 
 extension View {
+    /// Inspect
+    ///
+    /// - Parameter element: Element to inspect
+    /// - Parameter customizer: Element to modify
     public func inspect<TargetView: PlatformView>(
         _ element: TargetView.Type,
         customizer: @escaping (TargetView) -> Void
@@ -453,6 +457,10 @@ extension View {
         )
     }
 
+    /// Inspect View Controller
+    ///
+    /// - Parameter viewControllerSelector: View controller selector
+    /// - Parameter customizer: Element to modify
     public func inspect<TargetView: PlatformViewController>(
         viewControllerSelector: @escaping (PlatformViewController) -> TargetView?,
         customizer: @escaping (PlatformViewController) -> Void
