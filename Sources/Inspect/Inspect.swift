@@ -16,20 +16,30 @@ import SwiftUI
 
 // MARK: - Platform Definitions
 #if os(macOS)
-/// Current platform's view type
+/// Current platform's view
 public typealias PlatformView = NSView
+/// Current platform's view representable
 public typealias PlatformViewRepresentable = NSViewRepresentable
+/// Current platform's view representable context
 public typealias PlatformViewRepresentableContext = NSViewRepresentableContext
+/// Current platform's view controller
 public typealias PlatformViewController = NSViewController
+/// Current platform's view controller representable
 public typealias PlatformVCRepresentable = NSViewControllerRepresentable
+/// Current platform's view controller representable context
 public typealias PlatformVCRepresentableContext = NSViewControllerRepresentableContext
 #else
 /// Current platform's view type
 public typealias PlatformView = UIView
+/// Current platform's view representable
 public typealias PlatformViewRepresentable = UIViewRepresentable
+/// Current platform's view representable context
 public typealias PlatformViewRepresentableContext = UIViewRepresentableContext
+/// Current platform's view controller
 public typealias PlatformViewController = UIViewController
+/// Current platform's view controller representable
 public typealias PlatformVCRepresentable = UIViewControllerRepresentable
+/// Current platform's view controller representable context
 public typealias PlatformVCRepresentableContext = UIViewControllerRepresentableContext
 #endif
 
