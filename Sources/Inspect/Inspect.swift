@@ -264,7 +264,7 @@ fileprivate enum Inspector {
 /// Introspection PlatformView that is inserted alongside the target view.
 ///
 /// This class is used to create a PlatformView
-public class InspectPlatformView: PlatformView {
+fileprivate class InspectPlatformView: PlatformView {
     required init() {
         super.init(frame: .zero)
         isHidden = true
@@ -284,7 +284,7 @@ public class InspectPlatformView: PlatformView {
 
 // MARK: - Inspect
 /// Inspect a PlatformView
-public struct Inspect<TargetView: PlatformView>: PlatformViewRepresentable {
+fileprivate struct Inspect<TargetView: PlatformView>: PlatformViewRepresentable {
     /// The view type which we want to inspect
     let viewType: TargetView.Type
 
@@ -350,7 +350,7 @@ public struct Inspect<TargetView: PlatformView>: PlatformViewRepresentable {
 }
 
 /// Inspect PlatformViewController that is inserted alongside the target view controller.
-public class InspectPlatformViewController: PlatformViewController {
+fileprivate class InspectPlatformViewController: PlatformViewController {
     required init() {
         super.init(nibName: nil, bundle: nil)
     }
@@ -363,7 +363,7 @@ public class InspectPlatformViewController: PlatformViewController {
 
 // MARK: Inspect (View Controller)
 /// Inspect a PlatformViewController
-public struct InspectVC<TargetVCType: PlatformViewController>: PlatformVCRepresentable {
+fileprivate struct InspectVC<TargetVCType: PlatformViewController>: PlatformVCRepresentable {
     /// The selector we want to use
     let selector: (InspectPlatformViewController) -> TargetVCType?
 
