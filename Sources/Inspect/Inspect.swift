@@ -16,21 +16,31 @@ import SwiftUI
 
 // MARK: - Platform Definitions
 #if os(macOS)
+/// Current platform's view
 public typealias PlatformView = NSView
-public typealias PlatformControl = NSControl
+/// Current platform's view representable
 public typealias PlatformViewRepresentable = NSViewRepresentable
+/// Current platform's view representable context
 public typealias PlatformViewRepresentableContext = NSViewRepresentableContext
+/// Current platform's view controller
 public typealias PlatformViewController = NSViewController
-public typealias PlatformViewControllerRepresentable = NSViewControllerRepresentable
-public typealias PlatformViewControllerRepresentableContext = NSViewControllerRepresentableContext
+/// Current platform's view controller representable
+public typealias PlatformVCRepresentable = NSViewControllerRepresentable
+/// Current platform's view controller representable context
+public typealias PlatformVCRepresentableContext = NSViewControllerRepresentableContext
 #else
+/// Current platform's view type
 public typealias PlatformView = UIView
-public typealias PlatformControl = UIControl
+/// Current platform's view representable
 public typealias PlatformViewRepresentable = UIViewRepresentable
+/// Current platform's view representable context
 public typealias PlatformViewRepresentableContext = UIViewRepresentableContext
+/// Current platform's view controller
 public typealias PlatformViewController = UIViewController
-public typealias PlatformViewControllerRepresentable = UIViewControllerRepresentable
-public typealias PlatformViewControllerRepresentableContext = UIViewControllerRepresentableContext
+/// Current platform's view controller representable
+public typealias PlatformVCRepresentable = UIViewControllerRepresentable
+/// Current platform's view controller representable context
+public typealias PlatformVCRepresentableContext = UIViewControllerRepresentableContext
 #endif
 
 // MARK: - Inspector
@@ -47,13 +57,13 @@ public enum Inspector {
     ///   - root: Root view
     ///
     /// - Returns: The view of type (if found)
-    public static func findChild<viewOfType: PlatformView>(
-        ofType type: viewOfType.Type,
+    public static func findChild<ViewOfType: PlatformView>(
+        ofType type: ViewOfType.Type,
         in root: PlatformView
-    ) -> viewOfType? {
+    ) -> ViewOfType? {
         // Search in subviews
         for subview in root.subviews {
-            if let searchedView = subview as? viewOfType {
+            if let searchedView = subview as? ViewOfType {
                 return searchedView
             } else if let searchedView = findChild(ofType: type, in: subview) {
                 return searchedView
@@ -75,10 +85,10 @@ public enum Inspector {
     ///   - from: From View
     ///
     /// - Returns: The view of type (if found)
-    public static func firstSibling<viewOfType: PlatformView>(
-        ofType type: viewOfType.Type,
+    public static func firstSibling<ViewOfType: PlatformView>(
+        ofType type: ViewOfType.Type,
         from entry: PlatformView
-    ) -> viewOfType? {
+    ) -> ViewOfType? {
         // Check if we can find a superview, and a subview with an index of PlatformView
         guard let superview = entry.superview,
               let entryIndex = superview.subviews.firstIndex(of: entry) else {
@@ -109,17 +119,17 @@ public enum Inspector {
     ///   - from: From view
     ///
     /// - Returns: The view of type (if found)
-    public static func findAncestor<viewOfType: PlatformView>(
-        ofType type: viewOfType.Type,
+    public static func findAncestor<ViewOfType: PlatformView>(
+        ofType type: ViewOfType.Type,
         from entry: PlatformView
-    ) -> viewOfType? {
+    ) -> ViewOfType? {
         // Get the view above the current view (superview)
         var superview = entry.superview
 
         // Walk trough the subviews
         while let currentView = superview {
             // Is the current view the type we search for?
-            if let searchedView = currentView as? viewOfType {
+            if let searchedView = currentView as? ViewOfType {
                 // We found the view.
                 return searchedView
             }
@@ -143,17 +153,17 @@ public enum Inspector {
     ///   - from: From View
     ///
     /// - Returns: The view of type (if found)
-    public static func find<viewOfType: PlatformView>(
-        ofType type: viewOfType.Type,
+    public static func find<ViewOfType: PlatformView>(
+        ofType type: ViewOfType.Type,
         from entry: PlatformView
-    ) -> viewOfType? {
+    ) -> ViewOfType? {
         // Get the view above the current view (superview)
         var superview = entry.superview
 
         // Walk trough the subviews
         while let currentView = superview {
             // Is the current view the type we search for?
-            if let searchedView = currentView as? viewOfType {
+            if let searchedView = currentView as? ViewOfType {
                 // We found the view.
                 return searchedView
             }
@@ -165,8 +175,7 @@ public enum Inspector {
         // Search previous sibling
         if let superview = entry.superview,
            let entryIndex = superview.subviews.firstIndex(of: entry),
-           entryIndex > 0
-        {
+           entryIndex > 0 {
             for subview in superview.subviews[0..<entryIndex].reversed() {
                 if let typed = findChild(ofType: type, in: subview) {
                     return typed
@@ -183,9 +192,6 @@ public enum Inspector {
 
         // Search in subviews from the entry index.
         for subview in superview.subviews[entryIndex..<superview.subviews.endIndex] {
-
-            print ("Try subview 2 = \(subview.self)")
-
             // Search within child views
             if let searchedView = findChild(ofType: type, in: subview) {
                 // We found the view.
@@ -265,7 +271,7 @@ public class InspectPlatformView: PlatformView {
     }
 
 #if os(macOS)
-    public override func hitTest(_ point: NSPoint) -> NSView? {
+    override public func hitTest(_ point: NSPoint) -> NSView? {
         return nil
     }
 #endif
@@ -288,15 +294,6 @@ public struct Inspect<TargetView: PlatformView>: PlatformViewRepresentable {
     /// Inspect a PlatformView
     ///
     /// Use this to inspect a view
-    ///
-    /// How to use:
-    ///  ```swift
-    ///  .overlay {
-    ///      Inspect(MyViewType()) { view
-    ///          print(view)
-    ///      }
-    ///  }
-    ///  ```
     ///
     /// - Parameter viewType: PlatformView
     /// - Parameter customizer: Customizer
@@ -352,7 +349,7 @@ public struct Inspect<TargetView: PlatformView>: PlatformViewRepresentable {
     }
 }
 
-/// Introspection PlatformViewController that is inserted alongside the target view controller.
+/// Inspect PlatformViewController that is inserted alongside the target view controller.
 public class InspectPlatformViewController: PlatformViewController {
     required init() {
         super.init(nibName: nil, bundle: nil)
@@ -366,31 +363,22 @@ public class InspectPlatformViewController: PlatformViewController {
 
 // MARK: Inspect (View Controller)
 /// Inspect a PlatformViewController
-public struct InspectVC<TargetViewControllerType: PlatformViewController>: PlatformViewControllerRepresentable {
+public struct InspectVC<TargetVCType: PlatformViewController>: PlatformVCRepresentable {
     /// The selector we want to use
-    let selector: (InspectPlatformViewController) -> TargetViewControllerType?
+    let selector: (InspectPlatformViewController) -> TargetVCType?
 
     /// User-provided customization method for the target view.
-    let customizer: (TargetViewControllerType) -> Void
+    let customizer: (TargetVCType) -> Void
 
     /// Inspect a PlatformViewController.
     ///
     /// Use this to inspect a view controller
     ///
-    /// Example:
-    ///  ```swift
-    ///  .overlay {
-    ///      InspectVC({ $0.tabBarController }) { view
-    ///          print(view)
-    ///      }
-    ///  }
-    ///  ```
-    ///
     /// - Parameter selector: Selector to use
     /// - Parameter customizer: Customizer
     public init(
-        _ selector: @escaping (PlatformViewController) -> TargetViewControllerType?,
-        customizer: @escaping (TargetViewControllerType) -> Void
+        _ selector: @escaping (PlatformViewController) -> TargetVCType?,
+        customizer: @escaping (TargetVCType) -> Void
     ) {
         self.selector = selector
         self.customizer = customizer
@@ -400,7 +388,7 @@ public struct InspectVC<TargetViewControllerType: PlatformViewController>: Platf
     public func makeNSViewController(context: Context) -> InspectPlatformViewController {
         let viewController = InspectPlatformViewController()
 #if os(macOS)
-        viewController.view.setAccessibilityLabel("InspectVC<\(TargetViewControllerType.self)>")
+        viewController.view.setAccessibilityLabel("InspectVC<\(TargetVCType.self)>")
 #endif
         return viewController
     }
@@ -416,18 +404,18 @@ public struct InspectVC<TargetViewControllerType: PlatformViewController>: Platf
 
     // MARK: UIKit
     public func makeUIViewController(
-        context: PlatformViewControllerRepresentableContext<InspectVC>
+        context: PlatformVCRepresentableContext<InspectVC>
     ) -> InspectPlatformViewController {
         let viewController = InspectPlatformViewController()
 #if !os(macOS)
-        viewController.view.accessibilityLabel = "InspectVC<\(TargetViewControllerType.self)>"
+        viewController.view.accessibilityLabel = "InspectVC<\(TargetVCType.self)>"
 #endif
         return viewController
     }
 
     public func updateUIViewController(
         _ uiViewController: InspectPlatformViewController,
-        context: PlatformViewControllerRepresentableContext<InspectVC>
+        context: PlatformVCRepresentableContext<InspectVC>
     ) {
         DispatchQueue.main.asyncAfter(deadline: .now()) {
             guard let targetView = self.selector(uiViewController) else {
@@ -439,9 +427,22 @@ public struct InspectVC<TargetViewControllerType: PlatformViewController>: Platf
 }
 
 extension View {
+    /// Inspect a PlatformView
+    ///
+    /// Use this to inspect a view
+    ///
+    /// How to use:
+    ///  ```swift
+    ///  .inspect(MyViewType()) { view
+    ///      print(view)
+    ///  }
+    ///  ```
+    ///
+    /// - Parameter element: Element to inspect
+    /// - Parameter customizer: Element to modify
     public func inspect<TargetView: PlatformView>(
         _ element: TargetView.Type,
-        customizer: @escaping (TargetView) -> ()
+        customizer: @escaping (TargetView) -> Void
     ) -> some View {
         return overlay(
             Inspect(
@@ -454,9 +455,21 @@ extension View {
         )
     }
 
+    /// Inspect View Controller
+    ///
+    /// Use this to inspect a view controller
+    ///
+    ///  ```swift
+    ///  .inspectVC({ $0.tabBarController }) { view
+    ///      print(view)
+    ///  }
+    ///  ```
+    ///
+    /// - Parameter viewControllerSelector: View controller selector
+    /// - Parameter customizer: Element to modify
     public func inspect<TargetView: PlatformViewController>(
         viewControllerSelector: @escaping (PlatformViewController) -> TargetView?,
-        customizer: @escaping (PlatformViewController) -> ()
+        customizer: @escaping (PlatformViewController) -> Void
     ) -> some View {
         return overlay(
             InspectVC(
@@ -471,3 +484,4 @@ extension View {
 }
 
 #endif
+// swiftlint:disable:this file_length
