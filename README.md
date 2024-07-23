@@ -41,15 +41,15 @@ import Inspect
 
 struct ContentView: View {
 #if os(macOS)
-    let PlatfornImageView = NSImageView.self
+    let PlatformImageView = NSImageView.self
 #else
-    let PlatfornImageView = UIImageView.self
+    let PlatformImageView = UIImageView.self
 #endif
 
     var body: some View {
         VStack {
             Image(systemName: "star")
-                .inspect(PlatfornImageView) { view in
+                .inspect(PlatformImageView) { view in
                     print(view)
                 }
         }
