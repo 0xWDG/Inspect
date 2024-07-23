@@ -192,9 +192,6 @@ public enum Inspector {
 
         // Search in subviews from the entry index.
         for subview in superview.subviews[entryIndex..<superview.subviews.endIndex] {
-
-            print("Try subview 2 = \(subview.self)")
-
             // Search within child views
             if let searchedView = findChild(ofType: type, in: subview) {
                 // We found the view.
@@ -298,15 +295,6 @@ public struct Inspect<TargetView: PlatformView>: PlatformViewRepresentable {
     ///
     /// Use this to inspect a view
     ///
-    /// How to use:
-    ///  ```swift
-    ///  .overlay {
-    ///      Inspect(MyViewType()) { view
-    ///          print(view)
-    ///      }
-    ///  }
-    ///  ```
-    ///
     /// - Parameter viewType: PlatformView
     /// - Parameter customizer: Customizer
     public init(
@@ -361,7 +349,7 @@ public struct Inspect<TargetView: PlatformView>: PlatformViewRepresentable {
     }
 }
 
-/// Introspection PlatformViewController that is inserted alongside the target view controller.
+/// Inspect PlatformViewController that is inserted alongside the target view controller.
 public class InspectPlatformViewController: PlatformViewController {
     required init() {
         super.init(nibName: nil, bundle: nil)
@@ -385,15 +373,6 @@ public struct InspectVC<TargetVCType: PlatformViewController>: PlatformVCReprese
     /// Inspect a PlatformViewController.
     ///
     /// Use this to inspect a view controller
-    ///
-    /// Example:
-    ///  ```swift
-    ///  .overlay {
-    ///      InspectVC({ $0.tabBarController }) { view
-    ///          print(view)
-    ///      }
-    ///  }
-    ///  ```
     ///
     /// - Parameter selector: Selector to use
     /// - Parameter customizer: Customizer
@@ -448,7 +427,16 @@ public struct InspectVC<TargetVCType: PlatformViewController>: PlatformVCReprese
 }
 
 extension View {
-    /// Inspect
+    /// Inspect a PlatformView
+    ///
+    /// Use this to inspect a view
+    ///
+    /// How to use:
+    ///  ```swift
+    ///  .inspect(MyViewType()) { view
+    ///      print(view)
+    ///  }
+    ///  ```
     ///
     /// - Parameter element: Element to inspect
     /// - Parameter customizer: Element to modify
@@ -468,6 +456,14 @@ extension View {
     }
 
     /// Inspect View Controller
+    ///
+    /// Use this to inspect a view controller
+    ///
+    ///  ```swift
+    ///  .inspectVC({ $0.tabBarController }) { view
+    ///      print(view)
+    ///  }
+    ///  ```
     ///
     /// - Parameter viewControllerSelector: View controller selector
     /// - Parameter customizer: Element to modify
