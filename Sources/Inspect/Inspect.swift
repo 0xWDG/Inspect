@@ -17,35 +17,35 @@ import SwiftUI
 // MARK: - Platform Definitions
 #if os(macOS)
 /// Current platform's view
-public typealias PlatformView = NSView
+fileprivate typealias PlatformView = NSView
 /// Current platform's view representable
-public typealias PlatformViewRepresentable = NSViewRepresentable
+fileprivate typealias PlatformViewRepresentable = NSViewRepresentable
 /// Current platform's view representable context
-public typealias PlatformViewRepresentableContext = NSViewRepresentableContext
+fileprivate typealias PlatformViewRepresentableContext = NSViewRepresentableContext
 /// Current platform's view controller
-public typealias PlatformViewController = NSViewController
+fileprivate typealias PlatformViewController = NSViewController
 /// Current platform's view controller representable
-public typealias PlatformVCRepresentable = NSViewControllerRepresentable
+fileprivate typealias PlatformVCRepresentable = NSViewControllerRepresentable
 /// Current platform's view controller representable context
-public typealias PlatformVCRepresentableContext = NSViewControllerRepresentableContext
+fileprivate typealias PlatformVCRepresentableContext = NSViewControllerRepresentableContext
 #else
 /// Current platform's view type
-public typealias PlatformView = UIView
+fileprivate typealias PlatformView = UIView
 /// Current platform's view representable
-public typealias PlatformViewRepresentable = UIViewRepresentable
+fileprivate typealias PlatformViewRepresentable = UIViewRepresentable
 /// Current platform's view representable context
-public typealias PlatformViewRepresentableContext = UIViewRepresentableContext
+fileprivate typealias PlatformViewRepresentableContext = UIViewRepresentableContext
 /// Current platform's view controller
-public typealias PlatformViewController = UIViewController
+fileprivate typealias PlatformViewController = UIViewController
 /// Current platform's view controller representable
-public typealias PlatformVCRepresentable = UIViewControllerRepresentable
+fileprivate typealias PlatformVCRepresentable = UIViewControllerRepresentable
 /// Current platform's view controller representable context
-public typealias PlatformVCRepresentableContext = UIViewControllerRepresentableContext
+fileprivate typealias PlatformVCRepresentableContext = UIViewControllerRepresentableContext
 #endif
 
 // MARK: - Inspector
 /// Helper class to find items within the PlatformView\*Element
-public enum Inspector {
+fileprivate enum Inspector {
     /// Find Child
     ///
     /// Finds a subview of the specified type.
@@ -57,7 +57,7 @@ public enum Inspector {
     ///   - root: Root view
     ///
     /// - Returns: The view of type (if found)
-    public static func findChild<ViewOfType: PlatformView>(
+    fileprivate static func findChild<ViewOfType: PlatformView>(
         ofType type: ViewOfType.Type,
         in root: PlatformView
     ) -> ViewOfType? {
@@ -85,7 +85,7 @@ public enum Inspector {
     ///   - from: From View
     ///
     /// - Returns: The view of type (if found)
-    public static func firstSibling<ViewOfType: PlatformView>(
+    fileprivate static func firstSibling<ViewOfType: PlatformView>(
         ofType type: ViewOfType.Type,
         from entry: PlatformView
     ) -> ViewOfType? {
@@ -119,7 +119,7 @@ public enum Inspector {
     ///   - from: From view
     ///
     /// - Returns: The view of type (if found)
-    public static func findAncestor<ViewOfType: PlatformView>(
+    fileprivate static func findAncestor<ViewOfType: PlatformView>(
         ofType type: ViewOfType.Type,
         from entry: PlatformView
     ) -> ViewOfType? {
@@ -153,7 +153,7 @@ public enum Inspector {
     ///   - from: From View
     ///
     /// - Returns: The view of type (if found)
-    public static func find<ViewOfType: PlatformView>(
+    fileprivate static func find<ViewOfType: PlatformView>(
         ofType type: ViewOfType.Type,
         from entry: PlatformView
     ) -> ViewOfType? {
@@ -212,7 +212,7 @@ public enum Inspector {
     /// - Parameter entry: View
     ///
     /// - Returns: The view of type (if found)
-    public static func findHostingView(from entry: PlatformView) -> PlatformView? {
+    fileprivate static func findHostingView(from entry: PlatformView) -> PlatformView? {
         // Get the view above the current view (superview)
         var superview = entry.superview
 
@@ -240,7 +240,7 @@ public enum Inspector {
     /// - Parameter entry: View
     ///
     /// - Returns: The view of type (if found)
-    public static func findViewHost(from entry: PlatformView) -> PlatformView? {
+    fileprivate static func findViewHost(from entry: PlatformView) -> PlatformView? {
         // Get the view above the current view (superview)
         var superview = entry.superview
 
