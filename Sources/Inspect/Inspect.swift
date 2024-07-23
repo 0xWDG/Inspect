@@ -164,6 +164,7 @@ struct Inspect<TargetView: PlatformView>: PlatformViewRepresentable {
         _ viewType: TargetView.Type,
         customizer: @escaping (TargetView) -> Void
     ) {
+        print("Initing")
         self.viewType = viewType
         self.customizer = customizer
     }
