@@ -16,7 +16,7 @@ Inspect allows you to get the underlying \*Kit element of a SwiftUI view.
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/0xWDG/Inspect.git", .branch("main")),
+    .package(url: "https://github.com/0xWDG/Inspect.git", branch: "main"),
 ],
 targets: [
     .target(name: "MyTarget", dependencies: [
